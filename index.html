@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentPro | Equipment Rental Booking</title>
+    <style>
+        :root {
+            --navy: #061532;
+            --blue: #087cf5;
+            --bg: #f5f8fc;
+            --border: #dce5f0;
+            --muted: #718096;
+            --green: #079767;
+            --red: #e74757
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: #071b3b
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        nav {
+            height: 68px;
+            background: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5.5%;
+            position: sticky;
+            top: 0;
+            z-index: 20
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .logo {
+            height: 39px;
+            width: 39px;
+            border-radius: 50%;
+            background: var(--blue);
+            display: grid;
+            place-items: center;
+            font-size: 23px;
+            color: white;
+            font-weight: 800
+        }
+
+        .navlinks {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .navlinks button {
+            background: transparent;
+            border: 0;
+            color: #d5deed;
+            padding: 13px 16px;
+            border-radius: 13px
+        }
+
+        .navlinks button.active,
+        .navlinks button:hover {
+            background: #1b2b49;
+            color: white
+        }
+
+        main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px 4% 70px
+        }
+
+        .page {
+            display: none
+        }
+
+        .page.active {
+            display: block
+        }
+
+        h1 {
+            font-size: 34px;
+            letter-spacing: -1px;
+            margin: 15px 0 8px
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 0 0 12px
+        }
+
+        h3 {
+            margin: 0 0 10px
+        }
+
+        p {
+            line-height: 1.6
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 13px;
+            padding: 13px 20px;
+            font-weight: 700
+        }
+
+        .primary {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 7px 15px #087cf533
+        }
+
+        .primary:hover {
+            background: #0068dc
+        }
+
+        .outline {
+            background: white;
+            border: 1px solid var(--border);
+            color: #071b3b
+        }
+
+        .danger {
+            background: #ffe9eb;
+            color: #d82438
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 7px 18px #152d4d09
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin: 38px 0
+        }
+
+        .stat {
+            padding: 25px 24px;
+            border-radius: 25px
+        }
+
+        .stat span {
+            color: var(--muted)
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 37px;
+            margin-top: 5px
+        }
+
+        .hero {
+            min-height: 590px;
+            margin: -35px -4.4% 40px;
+            padding: 100px 6% 85px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, #020e29f5 0%, #031632dc 48%, #04142c70 100%), url("https://images.unsplash.com/photo-1580901368919-7738efb0f87e?auto=format&fit=crop&w=2000&q=85") center/cover;
+            color: white
+        }
+
+        .hero-content {
+            max-width: 800px
+        }
+
+        .pill {
+            display: inline-block;
+            border-radius: 30px;
+            background: #0c2c56;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .4px
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 68px);
+            line-height: 1.15;
+            margin: 20px 0
+        }
+
+        .hero h1 span {
+            color: #087cf5
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: #d1dcec;
+            max-width: 620px
+        }
+
+        .searchbar {
+            display: flex;
+            background: white;
+            border-radius: 18px;
+            padding: 7px;
+            gap: 5px;
+            max-width: 850px;
+            margin-top: 27px
+        }
+
+        .searchbar input,
+        .searchbar select {
+            border: 0;
+            outline: 0;
+            padding: 13px;
+            min-width: 0;
+            flex: 1;
+            color: #102344
+        }
+
+        .searchbar button {
+            min-width: 125px
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 35px 0 22px
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px
+        }
+
+        .category {
+            padding: 24px;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .category:hover,
+        .equipment:hover {
+            transform: translateY(-3px)
+        }
+
+        .category .icon {
+            font-size: 32px;
+            margin-bottom: 10px
+        }
+
+        .category strong {
+            display: block;
+            font-size: 17px
+        }
+
+        .category small {
+            color: var(--muted)
+        }
+
+        .browse-layout {
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 30px;
+            margin-top: 30px
+        }
+
+        .filters {
+            padding: 23px;
+            height: max-content;
+            position: sticky;
+            top: 90px
+        }
+
+        .filters label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 22px 0 9px
+        }
+
+        .filters input[type=text],
+        .filters select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white
+        }
+
+        .filters input[type=range] {
+            width: 100%;
+            accent-color: var(--blue)
+        }
+
+        .filters input[type=checkbox] {
+            accent-color: var(--blue)
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            align-content: start
+        }
+
+        .equipment {
+            overflow: hidden;
+            transition: .2s
+        }
+
+        .equipment img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #e9edf2;
+            display: block
+        }
+
+        .equipment-body {
+            padding: 19px
+        }
+
+        .product-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: flex-start
+        }
+
+        .product-top h3 {
+            font-size: 17px;
+            line-height: 1.4
+        }
+
+        .badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 30px;
+            white-space: nowrap;
+            background: #e4f7ef;
+            color: var(--green)
+        }
+
+        .badge.rented,
+        .badge.cancelled {
+            background: #ffe9eb;
+            color: var(--red)
+        }
+
+        .price {
+            font-size: 27px;
+            font-weight: 800;
+            margin: 18px 0
+        }
+
+        .price small {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--muted)
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px
+        }
+
+        .product-actions button {
+            flex: 1
+        }
+
+        .admin-tabs,
+        .filters-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0 25px
+        }
+
+        .tab {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 14px 20px
+        }
+
+        .tab.active {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+            box-shadow: 0 7px 15px #087cf533
+        }
+
+        .table-wrap {
+            overflow: auto
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 720px
+        }
+
+        th {
+            text-align: left;
+            background: #eaf0f7;
+            color: #52647d;
+            padding: 18px;
+            font-weight: 600
+        }
+
+        td {
+            padding: 17px;
+            border-top: 1px solid var(--border);
+            font-size: 14px
+        }
+
+        td img {
+            width: 58px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 10px;
+            vertical-align: middle;
+            margin-right: 12px
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px
+        }
+
+        .row-actions button {
+            padding: 9px 13px;
+            border-radius: 12px
+        }
+
+        .empty {
+            text-align: center;
+            padding: 65px 20px
+        }
+
+        .empty .empty-icon {
+            font-size: 44px
+        }
+
+        .booking-list {
+            display: grid;
+            gap: 15px
+        }
+
+        .booking {
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .booking h3 {
+            margin-bottom: 6px
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px
+        }
+
+        .form-grid label {
+            display: grid;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        .form-grid input,
+        .form-grid select {
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            background: white
+        }
+
+        .form-grid .full {
+            grid-column: 1/-1
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #061532aa;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            padding: 20px
+        }
+
+        .modal.open {
+            display: flex
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: auto
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px
+        }
+
+        .close {
+            border: 0;
+            background: #eef2f8;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 20px
+        }
+
+        footer {
+            background: var(--navy);
+            color: #cad5e8;
+            padding: 35px 5%;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        footer strong {
+            color: white
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #071b3b;
+            color: white;
+            padding: 15px 22px;
+            border-radius: 13px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 10px 30px #0003
+        }
+
+        .toast.show {
+            display: block
+        }
+
+        @media(max-width:1050px) {
+            .products {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .browse-layout {
+                grid-template-columns: 230px 1fr
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:700px) {
+            nav {
+                padding: 0 4%;
+                height: auto;
+                min-height: 68px;
+                flex-wrap: wrap
+            }
+
+            .brand {
+                font-size: 20px
+            }
+
+            .navlinks {
+                width: 100%;
+                justify-content: space-between;
+                gap: 0
+            }
+
+            .navlinks button {
+                padding: 11px 8px;
+                font-size: 13px
+            }
+
+            main {
+                padding: 25px 4% 45px
+            }
+
+            .hero {
+                margin: -25px -4.2% 30px;
+                padding: 65px 5%;
+                min-height: 520px
+            }
+
+            .hero h1 {
+                font-size: 42px
+            }
+
+            .hero p {
+                font-size: 16px
+            }
+
+            .searchbar {
+                flex-wrap: wrap
+            }
+
+            .searchbar input,
+            .searchbar select {
+                flex-basis: 40%
+            }
+
+            .searchbar button {
+                width: 100%
+            }
+
+            .browse-layout {
+                grid-template-columns: 1fr
+            }
+
+            .filters {
+                position: static
+            }
+
+            .products {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px
+            }
+
+            .equipment img {
+                height: 150px
+            }
+
+            .equipment-body {
+                padding: 13px
+            }
+
+            .product-top {
+                display: block
+            }
+
+            .product-top h3 {
+                font-size: 14px
+            }
+
+            .price {
+                font-size: 23px
+            }
+
+            .product-actions {
+                flex-direction: column
+            }
+
+            .stats {
+                gap: 10px
+            }
+
+            .stat {
+                padding: 18px
+            }
+
+            .stat strong {
+                font-size: 29px
+            }
+
+            h1 {
+                font-size: 29px
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr
+            }
+
+            .form-grid .full {
+                grid-column: auto
+            }
+        }
+
+        @media(max-width:430px) {
+            .products {
+                grid-template-columns: 1fr
+            }
+
+            .equipment img {
+                height: 220px
+            }
+
+            .categories {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .navlinks button {
+                font-size: 12px;
+                padding: 10px 5px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand" onclick="showPage('home')">
+            <div class="logo">R</div>RentPro
+        </div>
+        <div class="navlinks">
+            <button data-page="home" class="active" onclick="showPage('home')">Home</button>
+            <button data-page="browse" onclick="showPage('browse')">Browse</button>
+            <button data-page="bookings" onclick="showPage('bookings')">My Bookings</button>
+            <button data-page="admin" onclick="showPage('admin')">Admin</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <span class="pill">SAME-DAY PICKUP AVAILABLE</span>
+                    <h1>Pro-grade equipment,<br><span>ready when you are.</span></h1>
+                    <p>From excavators to cinema cameras — rent by the day with transparent pricing and easy booking.
+                    </p>
+                    <form class="searchbar" onsubmit="event.preventDefault();goSearch()">
+                        <input id="heroSearch" placeholder="What do you need? e.g. drill, generator">
+                        <select id="heroCategory">
+                            <option value="">All categories</option>
+                        </select>
+                        <button class="btn primary">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="section-head">
+                <div>
+                    <h2>Browse by category</h2>
+                    <p class="muted">Find the right equipment for your next project.</p>
+                </div><button class="btn outline" onclick="showPage('browse')">View all equipment →</button>
+            </div>
+            <div id="homeCategories" class="categories"></div>
+            <div class="section-head">
+                <div>
+                    <h2>Popular equipment</h2>
+                    <p class="muted">Reliable equipment for work, production and events.</p>
+                </div><button class="btn outline" onclick="showPage('browse')">Browse all →</button>
+            </div>
+            <div id="homeProducts" class="products"></div>
+        </section>
+
+        <!-- BROWSE -->
+        <section id="browse" class="page">
+            <h1>Browse equipment</h1>
+            <p class="muted" id="resultCount">Explore available rental equipment.</p>
+            <div class="browse-layout">
+                <aside class="filters card">
+                    <h3>Search</h3><input id="filterSearch" type="text" placeholder="Keyword..."
+                        oninput="renderProducts()">
+                    <label>Category</label><select id="filterCategory" onchange="renderProducts()">
+                        <option value="">All categories</option>
+                    </select>
+                    <label>Max price/day <span id="maxPriceLabel"
+                            style="float:right;color:var(--blue)">Any</span></label>
+                    <input id="filterPrice" type="range" min="0" max="500" value="500"
+                        oninput="document.getElementById('maxPriceLabel').textContent=this.value>=500?'Any':'$'+this.value;renderProducts()">
+                    <label style="font-weight:400"><input type="checkbox" id="availableOnly"
+                            onchange="renderProducts()"> Available only</label>
+                    <button class="btn outline" style="width:100%;margin-top:20px" onclick="resetFilters()">Reset
+                        filters</button>
+                </aside>
+                <div id="browseProducts" class="products"></div>
+            </div>
+        </section>
+
+        <!-- BOOKINGS -->
+        <section id="bookings" class="page">
+            <h1>My bookings</h1>
+            <p class="muted">View and manage your equipment reservations.</p>
+            <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+                <div class="stat card"><span>Total bookings</span><strong id="bookingTotal">0</strong></div>
+                <div class="stat card"><span>Active rentals</span><strong id="bookingActive">0</strong></div>
+                <div class="stat card"><span>Total spent</span><strong id="bookingSpent">$0</strong></div>
+            </div>
+            <div class="filters-tabs" id="bookingTabs">
+                <button class="tab active" onclick="setBookingFilter('All',this)">All</button>
+                <button class="tab" onclick="setBookingFilter('Confirmed',this)">Confirmed</button>
+                <button class="tab" onclick="setBookingFilter('Completed',this)">Completed</button>
+                <button class="tab" onclick="setBookingFilter('Cancelled',this)">Cancelled</button>
+            </div>
+            <div id="bookingList" class="booking-list"></div>
+        </section>
+
+        <!-- ADMIN -->
+        <section id="admin" class="page">
+            <h1>Admin dashboard</h1>
+            <div class="stats">
+                <div class="stat card"><span>Equipment</span><strong id="adminEquipment">0</strong></div>
+                <div class="stat card"><span>Available</span><strong id="adminAvailable">0</strong></div>
+                <div class="stat card"><span>Reservations</span><strong id="adminReservations">0</strong></div>
+                <div class="stat card"><span>Revenue</span><strong id="adminRevenue">$0</strong></div>
+            </div>
+            <div class="admin-tabs">
+                <button class="tab active" id="inventoryTab" onclick="setAdminTab('inventory')">Inventory</button>
+                <button class="tab" id="reservationsTab" onclick="setAdminTab('reservations')">Reservations</button>
+                <button class="btn primary" style="margin-left:auto" id="addEquipmentButton"
+                    onclick="openEquipmentModal()">+ Add equipment</button>
+            </div>
+            <div class="card table-wrap" id="inventoryPanel">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Price/day</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryRows"></tbody>
+                </table>
+            </div>
+            <div class="card table-wrap" id="adminReservationsPanel" style="display:none">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Equipment</th>
+                            <th>Dates</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookingRows"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div><strong style="font-size:22px">RentPro</strong>
+            <p>Professional equipment rentals, made simple.</p>
+        </div>
+        <div><strong>Quick links</strong>
+            <p>Browse equipment · My bookings · Admin</p>
+        </div>
+        <div>© 2026 RentPro. Demo project.</div>
+    </footer>
+
+    <!-- BOOKING MODAL -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h2>Book equipment</h2><button class="close" onclick="closeModal('bookingModal')">×</button>
+            </div>
+            <div id="bookingEquipmentInfo" class="muted" style="margin-bottom:20px"></div>
+            <form id="bookingForm" class="form-grid">
+                <input type="hidden" id="bookingEquipmentId">
+                <label>Full name<input id="customerName" required placeholder="Your name"></label>
+                <label>Email<input id="customerEmail" type="email" required placeholder="you@example.com"></label>
+                <label>Start date<input id="startDate" type="date" required></label>
+                <label>End date<input id="endDate" type="date" required></label>
+                <label class="full">Pickup location<input id="pickupLocation" required
+                        placeholder="Enter pickup location"></label>
+                <div class="full" id="bookingPrice" style="font-weight:800;font-size:20px"></div>
+                <button class="btn primary full" type="submit">Confirm booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EQUIPMENT MODAL -->
+    <div class="modal" id="equipmentModal">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h2 id="equipmentModalTitle">Add equipment</h2><button class="close"
+                    onclick="closeModal('equipmentModal')">×</button>
+            </div>
+            <form id="equipmentForm" class="form-grid">
+                <input type="hidden" id="editEquipmentId">
+                <label class="full">Equipment name<input id="equipmentName" required></label>
+                <label>Category<select id="equipmentCategory" required></select></label>
+                <label>Daily price ($)<input id="equipmentPrice" type="number" min="1" required></label>
+                <label class="full">Image URL<input id="equipmentImage" type="url"
+                        placeholder="https://example.com/image.jpg"></label>
+                <label class="full">Description<input id="equipmentDescription" placeholder="Equipment details"></label>
+                <label class="full">Status<select id="equipmentStatus">
+                        <option>Available</option>
+                        <option>Rented</option>
+                    </select></label>
+                <button class="btn primary full" type="submit">Save equipment</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const categories = ["Construction", "Power Tools", "Photo & Video", "Power", "Events & Audio", "Garden & Outdoor"];
+        const initialEquipment = [
+            { id: 1, name: "Yanmar SV17 Mini Excavator", category: "Construction", price: 289, status: "Available", image: "https://images.unsplash.com/photo-1580901368919-7738efb0f87e?auto=format&fit=crop&w=900&q=80", description: "Compact excavator for construction projects." },
+            { id: 2, name: "ProForce 18V Hammer Drill Kit", category: "Power Tools", price: 29, status: "Available", image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=900&q=80", description: "Cordless hammer drill kit with accessories." },
+            { id: 3, name: "RED Komodo 6K Cinema Kit", category: "Photo & Video", price: 249, status: "Available", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80", description: "Professional cinema camera kit." },
+            { id: 4, name: "6.5 kW Portable Generator", category: "Power", price: 79, status: "Available", image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80", description: "Portable generator for job sites and events." },
+            { id: 5, name: "19ft Electric Scissor Lift", category: "Construction", price: 165, status: "Rented", image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=900&q=80", description: "Electric lift for indoor and outdoor work." },
+            { id: 6, name: "Pro PA Sound System", category: "Events & Audio", price: 89, status: "Available", image: "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=900&q=80", description: "Sound system for events and performances." },
+            { id: 7, name: "Heavy Duty Pressure Washer", category: "Garden & Outdoor", price: 49, status: "Available", image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80", description: "Powerful cleaning equipment." },
+            { id: 8, name: "Professional Lighting Kit", category: "Photo & Video", price: 59, status: "Available", image: "https://images.unsplash.com/photo-1502982720700-bfff97f2ecac?auto=format&fit=crop&w=900&q=80", description: "Lighting equipment for studio shoots." }
+        ];
+        function load(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback } catch (e) { return fallback } }
+        let equipment = load("rentpro_equipment", initialEquipment);
+        let bookings = load("rentpro_bookings", []);
+        let bookingFilter = "All";
+        let adminTab = "inventory";
+        const $ = id => document.getElementById(id);
+        const money = n => "$" + Number(n || 0).toLocaleString("en-US", { maximumFractionDigits: 2 });
+        const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        function persist() { localStorage.setItem("rentpro_equipment", JSON.stringify(equipment)); localStorage.setItem("rentpro_bookings", JSON.stringify(bookings)) }
+        function toast(msg) { $("toast").textContent = msg; $("toast").classList.add("show"); setTimeout(() => $("toast").classList.remove("show"), 3000) }
+        function showPage(id) {
+            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+            $(id).classList.add("active");
+            document.querySelectorAll(".navlinks button").forEach(b => b.classList.toggle("active", b.dataset.page === id));
+            if (id === "browse") renderProducts();
+            if (id === "bookings") renderBookings();
+            if (id === "admin") renderAdmin();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        function fillCategories() {
+            ["heroCategory", "filterCategory", "equipmentCategory"].forEach(id => {
+                const el = $(id), first = el.options[0].outerHTML;
+                el.innerHTML = first + categories.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+            });
+        }
+        function categoryCards() {
+            const icons = { "Construction": "🏗️", "Power Tools": "🛠️", "Photo & Video": "📷", "Power": "⚡", "Events & Audio": "🔊", "Garden & Outdoor": "🌿" };
+            $("homeCategories").innerHTML = categories.map(c => `<div class="card category" onclick="chooseCategory('${c}')"><div class="icon">${icons[c] || "🧰"}</div><strong>${c}</strong><small>${equipment.filter(e => e.category === c).length} items</small></div>`).join("");
+        }
+        function productCard(e) {
+            return `<article class="card equipment">
+ <img src="${esc(e.image)}" alt="${esc(e.name)}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8edf4/173154?text=Equipment'">
+ <div class="equipment-body">
+ <div class="product-top"><h3>${esc(e.name)}</h3><span class="badge ${e.status === "Available" ? "" : "rented"}">${esc(e.status)}</span></div>
+ <p class="muted" style="font-size:13px;margin:0">${esc(e.category)}</p>
+ <div class="price">${money(e.price)}<small> /day</small></div>
+ <div class="product-actions"><button class="btn primary" ${e.status !== "Available" ? "disabled style='opacity:.5'" : ""} onclick="openBooking(${e.id})">${e.status === "Available" ? "Book Now" : "Unavailable"}</button></div>
+ </div></article>`;
+        }
+        function renderHome() {
+            categoryCards();
+            $("homeProducts").innerHTML = equipment.filter(e => e.status === "Available").slice(0, 4).map(productCard).join("");
+        }
+        function renderProducts() {
+            const q = $("filterSearch").value.toLowerCase().trim(), cat = $("filterCategory").value;
+            const max = Number($("filterPrice").value), available = $("availableOnly").checked;
+            const list = equipment.filter(e => (e.name + " " + e.category + " " + e.description).toLowerCase().includes(q) && (!cat || e.category === cat) && e.price <= max && (!available || e.status === "Available"));
+            $("resultCount").textContent = `${list.length} of ${equipment.length} items`;
+            $("browseProducts").innerHTML = list.map(productCard).join("") || `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">🔎</div><h3>No equipment found</h3><p class="muted">Try changing your search or filters.</p></div>`;
+        }
+        function chooseCategory(c) { showPage("browse"); $("filterCategory").value = c; renderProducts() }
+        function goSearch() { showPage("browse"); $("filterSearch").value = $("heroSearch").value; $("filterCategory").value = $("heroCategory").value; renderProducts() }
+        function resetFilters() { $("filterSearch").value = ""; $("filterCategory").value = ""; $("filterPrice").value = 500; $("maxPriceLabel").textContent = "Any"; $("availableOnly").checked = false; renderProducts() }
+        function openModal(id) { $(id).classList.add("open") }
+        function closeModal(id) { $(id).classList.remove("open") }
+        function openBooking(id) {
+            const e = equipment.find(x => x.id === id); if (!e || e.status !== "Available") return;
+            $("bookingForm").reset(); $("bookingEquipmentId").value = id;
+            $("bookingEquipmentInfo").innerHTML = `<strong>${esc(e.name)}</strong> · ${money(e.price)} per day`;
+            const today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+            const date = today.toISOString().slice(0, 10);
+            $("startDate").min = date; $("endDate").min = date; $("startDate").value = date; $("endDate").value = date;
+            updateBookingPrice(); openModal("bookingModal");
+        }
+        function dayCount(start, end) { const a = new Date(start + "T00:00:00"), b = new Date(end + "T00:00:00"); return Math.floor((b - a) / 86400000) + 1 }
+        function updateBookingPrice() {
+            const e = equipment.find(x => x.id === Number($("bookingEquipmentId").value));
+            const start = $("startDate").value, end = $("endDate").value;
+            if (!e || !start || !end) { $("bookingPrice").textContent = "Select rental dates"; return }
+            if (end < start) { $("bookingPrice").textContent = "End date must be on or after the start date."; return }
+            $("bookingPrice").textContent = `${dayCount(start, end)} day(s) · Total: ${money(dayCount(start, end) * e.price)}`;
+        }
+        $("startDate").addEventListener("change", () => { $("endDate").min = $("startDate").value; if ($("endDate").value < $("startDate").value) $("endDate").value = $("startDate").value; updateBookingPrice() });
+        $("endDate").addEventListener("change", updateBookingPrice);
+        $("bookingForm").addEventListener("submit", e => {
+            e.preventDefault();
+            const id = Number($("bookingEquipmentId").value), item = equipment.find(x => x.id === id);
+            const start = $("startDate").value, end = $("endDate").value;
+            if (!item || item.status !== "Available") return toast("This equipment is no longer available.");
+            if (end < start) return toast("Please select valid rental dates.");
+            const overlaps = bookings.some(b => b.equipmentId === id && b.status === "Confirmed" && !(end < b.start || start > b.end));
+            if (overlaps) return toast("This equipment is already booked for those dates.");
+            const b = { id: Date.now(), equipmentId: id, customer: $("customerName").value.trim(), email: $("customerEmail").value.trim(), start, end, location: $("pickupLocation").value.trim(), total: dayCount(start, end) * item.price, status: "Confirmed", created: new Date().toISOString() };
+            bookings.push(b); persist(); closeModal("bookingModal"); renderAll(); showPage("bookings"); toast("Booking confirmed successfully!");
+        });
+        function setBookingFilter(f, button) { bookingFilter = f; document.querySelectorAll("#bookingTabs .tab").forEach(b => b.classList.remove("active")); button.classList.add("active"); renderBookings() }
+        function renderBookings() {
+            const own = bookings;
+            $("bookingTotal").textContent = own.length;
+            $("bookingActive").textContent = own.filter(b => b.status === "Confirmed").length;
+            $("bookingSpent").textContent = money(own.filter(b => b.status !== "Cancelled").reduce((s, b) => s + b.total, 0));
+            const list = own.filter(b => bookingFilter === "All" || b.status === bookingFilter).slice().reverse();
+            $("bookingList").innerHTML = list.map(b => {
+                const e = equipment.find(x => x.id === b.equipmentId);
+                return `<article class="card booking"><div><span class="badge ${b.status === "Cancelled" ? "cancelled" : ""}">${esc(b.status)}</span><h3 style="margin-top:12px">${esc(e?.name || "Equipment")}</h3><div class="muted">${esc(b.start)} → ${esc(b.end)} · ${esc(b.location)}</div><div class="muted">Booking #${b.id} · ${esc(b.customer)}</div></div><div><div style="font-size:24px;font-weight:800;margin-bottom:12px">${money(b.total)}</div>${b.status === "Confirmed" ? `<button class="btn danger" onclick="cancelBooking(${b.id})">Cancel booking</button>` : ""}</div></article>`;
+            }).join("") || `<div class="card empty"><div class="empty-icon">▣</div><h3>No bookings here yet.</h3><p class="muted">Find the equipment you need and reserve it here.</p><button class="btn primary" onclick="showPage('browse')">Browse equipment</button></div>`;
+        }
+        function cancelBooking(id) {
+            const b = bookings.find(x => x.id === id); if (!b || b.status !== "Confirmed") return;
+            if (!confirm("Cancel this booking?")) return;
+            b.status = "Cancelled"; persist(); renderAll(); toast("Booking cancelled.");
+        }
+        function setAdminTab(tab) {
+            adminTab = tab;
+            $("inventoryPanel").style.display = tab === "inventory" ? "block" : "none";
+            $("adminReservationsPanel").style.display = tab === "reservations" ? "block" : "none";
+            $("inventoryTab").classList.toggle("active", tab === "inventory");
+            $("reservationsTab").classList.toggle("active", tab === "reservations");
+            $("addEquipmentButton").style.display = tab === "inventory" ? "inline-block" : "none";
+        }
+        function renderAdmin() {
+            $("adminEquipment").textContent = equipment.length;
+            $("adminAvailable").textContent = equipment.filter(e => e.status === "Available").length;
+            $("adminReservations").textContent = bookings.filter(b => b.status !== "Cancelled").length;
+            $("adminRevenue").textContent = money(bookings.filter(b => b.status !== "Cancelled").reduce((s, b) => s + b.total, 0));
+            $("inventoryRows").innerHTML = equipment.map(e => `<tr><td><img src="${esc(e.image)}" onerror="this.src='https://placehold.co/100x80'">${esc(e.name)}</td><td>${esc(e.category)}</td><td>${money(e.price)}</td><td><span class="badge ${e.status === "Available" ? "" : "rented"}">${esc(e.status)}</span></td><td><div class="row-actions"><button class="btn outline" onclick="editEquipment(${e.id})">Edit</button><button class="btn danger" onclick="deleteEquipment(${e.id})">Delete</button></div></td></tr>`).join("");
+            $("adminBookingRows").innerHTML = bookings.slice().reverse().map(b => `<tr><td>${b.id}</td><td>${esc(equipment.find(e => e.id === b.equipmentId)?.name || "Equipment")}</td><td>${esc(b.start)} – ${esc(b.end)}</td><td>${esc(b.customer)}</td><td>${money(b.total)}</td><td>${esc(b.status)}</td><td>${b.status === "Confirmed" ? `<button class="btn danger" onclick="cancelBooking(${b.id})">Cancel</button>` : "—"}</td></tr>`).join("") || `<tr><td colspan="7" style="text-align:center;padding:40px">No reservations yet.</td></tr>`;
+            setAdminTab(adminTab);
+        }
+        function openEquipmentModal() {
+            $("equipmentForm").reset(); $("editEquipmentId").value = ""; $("equipmentModalTitle").textContent = "Add equipment"; openModal("equipmentModal");
+        }
+        function editEquipment(id) {
+            const e = equipment.find(x => x.id === id); if (!e) return;
+            $("editEquipmentId").value = e.id; $("equipmentName").value = e.name; $("equipmentCategory").value = e.category; $("equipmentPrice").value = e.price; $("equipmentImage").value = e.image; $("equipmentDescription").value = e.description; $("equipmentStatus").value = e.status;
+            $("equipmentModalTitle").textContent = "Edit equipment"; openModal("equipmentModal");
+        }
+        $("equipmentForm").addEventListener("submit", e => {
+            e.preventDefault();
+            const id = Number($("editEquipmentId").value);
+            const data = { name: $("equipmentName").value.trim(), category: $("equipmentCategory").value, price: Number($("equipmentPrice").value), image: $("equipmentImage").value.trim() || "https://placehold.co/600x400/e8edf4/173154?text=Equipment", description: $("equipmentDescription").value.trim(), status: $("equipmentStatus").value };
+            if (id) { equipment = equipment.map(x => x.id === id ? { ...x, ...data } : x); toast("Equipment updated."); }
+            else { equipment.push({ id: Date.now(), ...data }); toast("Equipment added."); }
+            persist(); closeModal("equipmentModal"); renderAll();
+        });
+        function deleteEquipment(id) {
+            const linked = bookings.some(b => b.equipmentId === id);
+            if (linked) return toast("Cannot delete equipment with booking history.");
+            if (!confirm("Delete this equipment?")) return;
+            equipment = equipment.filter(e => e.id !== id); persist(); renderAll(); toast("Equipment deleted.");
+        }
+        function renderAll() { renderHome(); renderProducts(); renderBookings(); renderAdmin() }
+        document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => { if (e.target === m) m.classList.remove("open") }));
+        fillCategories(); renderAll();
+    </script>
+</body>
+
+</html>
